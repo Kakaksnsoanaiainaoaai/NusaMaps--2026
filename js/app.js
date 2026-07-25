@@ -1,49 +1,53 @@
+// WAJIB MENGGUNAKAN .js PADA IMPORT DI GITHUB PAGES
 import { initMap, mapInstance } from './map.js';
 import { setupSearch } from './search.js';
-// PERHATIKAN: Kita TIDAK import routing.js di sini!
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Load fitur esensial langsung
-    initMap();
-    setupSearch();
+    const loadingScreen = document.getElementById('loading-screen');
 
-    // 2. Setup Lazy Loading untuk fitur berat
+    try {
+        // 1. Eksekusi Inti
+        initMap();
+        setupSearch();
+    } catch (err) {
+        console.error("Kesalahan saat inisialisasi:", err);
+    } finally {
+        // 2. Apapun yang terjadi, hilangkan loading setelah 1.5 detik
+        setTimeout(() => {
+            if (loadingScreen) {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => loadingScreen.style.display = 'none', 500);
+            }
+        }, 1500);
+    }
+
+    // 3. Lazy Load Navigasi Routing
     const routeBtn = document.getElementById('btn-route');
-    
     if (routeBtn) {
         routeBtn.addEventListener('click', async (e) => {
-            // Cek apakah modul sudah pernah di-load
             if (!routeBtn.hasAttribute('data-loaded')) {
-                // Tahan default click sejenak
                 e.preventDefault();
+                const iconBefore = routeBtn.innerHTML;
+                routeBtn.innerHTML = '<span class="material-symbols-outlined spin">sync</span>';
                 
-                const btnIcon = routeBtn.innerHTML;
-                routeBtn.innerHTML = '<span class="material-symbols-outlined spin">sync</span>'; // Loading icon
-
                 try {
-                    // DYNAMIC IMPORT: Browser baru download routing.js sekarang
                     const { initRouting } = await import('./routing.js');
-                    const { showToast } = await import('./utils.js');
-                    
                     initRouting(mapInstance);
                     routeBtn.setAttribute('data-loaded', 'true');
-                    routeBtn.innerHTML = btnIcon; // Kembalikan ikon awal
-                    
-                    showToast("Fitur navigasi siap!");
-                    
-                    // Trigger ulang klik-nya agar langsung jalan
-                    routeBtn.click(); 
+                    routeBtn.innerHTML = iconBefore;
+                    routeBtn.click(); // Trigger ulang otomatis
                 } catch (err) {
-                    console.error("Gagal meload modul routing:", err);
-                    routeBtn.innerHTML = btnIcon;
+                    console.error("Gagal meload routing.js:", err);
+                    routeBtn.innerHTML = iconBefore;
                 }
             }
         });
     }
-
-    // 3. Daftarkan Service Worker
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.js')
-            .catch(err => console.error('SW Registration Failed', err));
-    }
 });
+
+// 4. Registrasi Service Worker (Aman dengan Path ./)
+if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+    navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log("SW Registered!"))
+        .catch(err => console.error("SW Failed:", err));
+}

@@ -3,79 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Web Maps Modern</title>
+    <title>NusaMaps by VdnX.Dev</title>
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#ffffff">
-
-    <!-- Leaflet CSS -->
+    <!-- Leaflet & Routing Machine CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
-    
-    <!-- Tambahkan di dalam <head> di bawah leaflet.css -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <!-- Google Material Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     
-    <!-- Custom CSS -->
+    <!-- WAJIB PAKAI TITIK ./ -->
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/theme.css">
 </head>
 <body>
     <!-- Splash Screen -->
-    <div id="splash-screen" class="splash">
-        <div class="loader"></div>
-        <h2>Memuat Peta...</h2>
+    <div id="loading-screen" class="loading-screen">
+        <div class="spinner"></div>
+        <p>Memuat Peta...</p>
     </div>
-
-    <!-- Header / Navbar -->
-    <header class="top-bar glass-effect">
-        <div class="menu-left">
-            <button id="menu-btn" class="icon-btn"><span class="material-symbols-outlined">menu</span></button>
-            <h1 class="app-logo">GeoMaps</h1>
-        </div>
-        
-        <div class="search-container">
-            <span class="material-symbols-outlined search-icon">search</span>
-            <input type="text" id="search-input" placeholder="Cari di GeoMaps..." autocomplete="off">
-            <button class="icon-btn"><span class="material-symbols-outlined">mic</span></button>
-            <div id="search-results" class="search-dropdown hidden"></div>
-        </div>
-
-        <div class="menu-right">
-            <button id="theme-toggle" class="icon-btn"><span class="material-symbols-outlined">dark_mode</span></button>
-            <button class="icon-btn login-btn"><span class="material-symbols-outlined">account_circle</span></button>
-        </div>
-    </header>
-
-    <!-- Sidebar -->
-    <nav id="sidebar" class="sidebar">
-        <ul class="nav-list">
-            <li class="nav-item active"><span class="material-symbols-outlined">home</span> Beranda</li>
-            <li class="nav-item"><span class="material-symbols-outlined">bookmark</span> Tersimpan</li>
-            <li class="nav-item"><span class="material-symbols-outlined">history</span> Riwayat</li>
-            <li class="nav-item"><span class="material-symbols-outlined">directions_car</span> Rute</li>
-            <li class="nav-item"><span class="material-symbols-outlined">settings</span> Pengaturan</li>
-        </ul>
-    </nav>
 
     <!-- Map Container -->
-    <main id="map-container">
-        <div id="map"></div>
-    </main>
+    <div id="map"></div>
 
-    <!-- Floating Action Buttons -->
-    <div class="fab-container">
-        <button id="btn-locate" class="fab"><span class="material-symbols-outlined">my_location</span></button>
-        <button id="btn-route" class="fab primary"><span class="material-symbols-outlined">directions</span></button>
+    <!-- UI Overlay -->
+    <div class="search-container">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <input type="text" id="search-input" placeholder="Cari lokasi, kota, atau tempat...">
+        <div id="search-results" class="search-results hidden"></div>
     </div>
 
-    <!-- Scripts (Load Leaflet first, then our modules) -->
+    <div class="floating-controls">
+        <button id="btn-locate" class="fab"><span class="material-symbols-outlined">my_location</span></button>
+        <button id="btn-route" class="fab"><span class="material-symbols-outlined">directions</span></button>
+    </div>
+
+    <!-- Scripts CDN -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-    <script type="module" src="./js/app.js"></script
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    
+    <!-- WAJIB PAKAI TITIK ./ -->
+    <script type="module" src="./js/app.js"></script>
 </body>
 </html>
